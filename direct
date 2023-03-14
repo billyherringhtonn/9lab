@@ -1,233 +1,185 @@
-+-------------------------------+
-|           Автомобіль          |
-+-------------------------------+
-| + марка                       |
-| + двигун                      |
-| + трансмісія                  |
-| + встановити_двигун(dv: Двигун) |
-| + встановити_трансмісію(tr: Трансмісія) |
-+-------------------------------+
-                /    \
-               /      \
-              /        \
-+----------------+ +----------------+
-|    Двигун       | |  Трансмісія    |
-+----------------+ +----------------+
-| + потужність   | | + тип          |
-| + кількість_циліндрів |         |
-| + кількість_клапанів |         |
-+----------------+ +----------------+
-                   /      \
-                  /        \
-+----------------------------------+
-|       БудівельникАвтомобіля      |
-+----------------------------------+
-| + автомобіль: Автомобіль        |
-| + створити_новий_автомобіль()     |
-| + додати_двигун(dv: Двигун)        |
-| + додати_трансмісію(tr: Трансмісія) |
-+----------------------------------+
-                         /      \
-                        /        \
-           +---------------------+ +---------------------+
-           | ПокращенийДвигунДекоратор | | СпортивнаТрансмісіяДекоратор |
-           +---------------------+ +---------------------+
-           | + будівельник: БудівельникАвтомобіля   | | + будівельник: БудівельникАвтомобіля   |
-           | + створити_новий_автомобіль()          | | + створити_новий_автомобіль()          |
-           | + додати_двигун(dv: Двигун)             | | + додати_двигун(dv: Двигун)             |
-           | + встановити_покращений_двигун()        | | + додати_спортивну_трансмісію()          |
-           | + додати_трансмісію(tr: Трансмісія)      | | + встановити_спортивну_трансмісію()     |
-           | + встановити_спортивну_трансмісію()     | | + отримати_автомобіль(): Автомобіль    |
-           | + отримати_автомобіль(): Автомобіль   | +---------------------+
-           +---------------------+
-Клас Автомобіль містить основні характеристики автомобіля, такі як марка, двигун та трансмісію.
-Клас Двигун містить властивості, що описують двигун автомобіля, такі як потужність, кількість циліндрів та кількість клапанів.
-Клас Трансмісія містить властивість типу трансмісії автомобіля.
-Клас БудівельникАвтомобіля містить методи для створення нового автомобіля та додавання до нього компонентів (двигунів та трансмісій). Цей клас є компонувальником.
-Класи ПокращенийДвигунДекоратор та СпортивнаТрансмісіяДекоратор наслідують від БудівельникАвтомобіля та додають до базового автомобіля покращений двигун 
-та спортивну трансмісію, відповідно.
-Візуальний інтерфейс програми може мати форму, де користувач може вибрати характеристики для свого автомобіля, такі як марку, тип двигуна та трансмісії,
-а також вибрати додаткові покращення, якщо вони доступні. Після вибору всіх необхідних характеристик користувач може створити свій автомобіль, 
-натиснувши кнопку "Створити". Програма використовує Компонувальник для зібрання всіх обраних компонентів автомобіля та повертає його користувачу.
-class Engine:
-    def __init__(self, power, cylinders, valves):
-        self.power = power
-        self.cylinders = cylinders
-        self.valves = valves
+Завдання "Компонувальник для формування складових легкового авто" можна реалізувати з використанням об'єктно-орієнтованого підходу. Для цього можна побудувати діаграму класів, яка буде відображати структуру програми та взаємодію між класами.
+Основними класами програми можуть бути:
+1.	Car - клас, який описує легковий автомобіль. Він може мати такі атрибути, як марка, модель, рік випуску, тип кузова, тип палива та інші.
+2.	Component - клас, який описує компоненти автомобіля, такі як двигун, коробка передач, гальма, підвіска та інші. 
+Кожен компонент може мати свої атрибути, такі як виробник, модель, рік випуску, тип тощо.
+3.	Inventory - клас, який описує інвентар складу компонентів, який може використовуватися для складання автомобіля. 
+Він може мати такі методи, як додавання та видалення компонентів.
+4.	Assembler - клас, який виконує функцію компонувальника. Він може містити методи для збору та розбору автомобіля з використанням компонентів з інвентарю.
+Діаграма класів для даної програми може мати наступний вигляд:
+     +----------+               +----------------+             +------------------+
+     |    Car   |               |    Component   |             |     Inventory    |
+     +----------+               +----------------+             +------------------+
+     |  make    |               |  manufacturer |             | components: List |
+     |  model   |               |     model     |             +------------------+
+     |  year    |               |    yearMade   |             | addComponent()   |
+     |  body    |               |    type       |             | removeComponent()|
+     |  fuel    |               |  description  |             +------------------+
+     +----------+               +----------------+
+
+                          +--------------+
+                          |   Assembler  |
+                          +--------------+
+                          |  inventory   |
+                          +--------------+
+                          | buildCar()   |
+                          | disassemble()|
+                          +--------------+
+Опис класів:
+Car: клас, що описує легковий автомобіль, з атрибутами: марка, модель, рік випуску, тип кузова, тип палива та інші.
+Component: клас, що описує компоненти автомобіля, такі як двигун, коробка передач, гальма, підвіска та інші. Кожен компонент може мати свої атрибути, такі як виробник, модель, рік випуску, тип тощо.
+Inventory: клас, що описує інвентар складу компонентів, який може використовуватися для складання автомобіля, з методами для додавання та видалення компонентів.
+Assembler: клас, що виконує функцію компонувальника, з атрибутом inventory (інвентар складу компонентів) 
+та методами для збору та розбору автомобіля з використанням компонентів з інвентарю.
+
+Реалізацію програми можна здійснити з використанням мови програмування Python та фреймворка для створення графічних інтерфейсів Tkinter.
+Він дозволяє створювати вікна, кнопки, текстові поля та інші елементи інтерфейсу, а також виконувати функції з їх допомогою.
+Основні елементи інтерфейсу для даної програми можуть бути наступними:
+1.	Головне вікно програми, яке містить панель меню та кнопки для доступу до функцій програми.
+2.	Вікно для додавання
+компонентів в інвентар - воно може містити форму для введення даних про компонент (назва, виробник, модель, рік випуску тощо),
+а також кнопку для додавання компонента в інвентар.
+3.	Вікно для складання автомобіля - воно може містити список доступних компонентів з інвентарю та відповідні кнопки для додавання 
+та видалення компонентів зі складування.
+4.	Вікно для перегляду деталей про автомобіль - воно може містити інформацію про обраний автомобіль, включаючи всі встановлені компоненти та їх характеристики.
+5.	Вікно для редагування даних про компонент або автомобіль - воно може містити форму для редагування даних про компонент або автомобіль, 
+а також кнопки для збереження або відміни змін.
+6.	Вікно для збереження та завантаження даних - воно може містити кнопки для збереження даних про компоненти та автомобілі у файл або завантаження даних з файлу.
 
 
-class Transmission:
-    def __init__(self, transmission_type):
-        self.transmission_type = transmission_type
-
-
-class CarBuilder:
-    def __init__(self):
-        self.engine = None
-        self.transmission = None
-    
-    def add_engine(self, engine):
-        self.engine = engine
-        
-    def add_transmission(self, transmission):
-        self.transmission = transmission
-        
-    def build_car(self):
-        return Car(self.engine, self.transmission)
-    
-    
-class Car:
-    def __init__(self, engine, transmission):
-        self.engine = engine
-        self.transmission = transmission
-        
-        
-class UpgradedEngineDecorator(CarBuilder):
-    def __init__(self, builder):
-        self.builder = builder
-        
-    def add_engine(self, engine):
-        upgraded_engine = Engine(engine.power * 1.2, engine.cylinders + 2, engine.valves + 4)
-        self.builder.add_engine(upgraded_engine)
-        
-        
-class SportTransmissionDecorator(CarBuilder):
-    def __init__(self, builder):
-        self.builder = builder
-        
-    def add_transmission(self, transmission):
-        sport_transmission = Transmission("Sport")
-        self.builder.add_transmission(sport_transmission)
-Цей код реалізує нашу діаграму класів. Клас Engine містить властивості двигуна, а Transmission - властивість типу трансмісії.
-Клас CarBuilder є базовим компонувальником, який містить методи для додавання двигуна та трансмісії до автомобіля та створення автомобіля. 
-Клас Car представляє собою створений автомобіль.
-Класи UpgradedEngineDecorator та SportTransmissionDecorator є декораторами, які наслідують від CarBuilder.
-Вони додають до базового автомобіля покращений двигун та спортивну трансмісію, відповідно.
-Кожен декоратор отримує базовий компонувальник у своєму конструкторі та додає до нього додатковий компонент.
-який використовує tkinter, вбудований модуль Python, для створення простого візуального інтерфейсу, який дозволяє використовувати нашу програму з компонувальником.
+На основі наведеної діаграми класів я можу запропонувати наступний код програми на мові Python з візуальним інтерфейсом, 
+що відповідає функціональності Компонувальника для формування складових легкового авто:
+python
 import tkinter as tk
+from tkinter import ttk
 
-class App:
-    def __init__(self, master):
-        self.master = master
-        self.builder = CarBuilder()
-        
-        # create labels and entry widgets for engine properties
-        tk.Label(master, text="Engine Power: ").grid(row=0, column=0)
-        self.engine_power = tk.Entry(master)
-        self.engine_power.grid(row=0, column=1)
-        
-        tk.Label(master, text="Number of Cylinders: ").grid(row=1, column=0)
-        self.engine_cylinders = tk.Entry(master)
-        self.engine_cylinders.grid(row=1, column=1)
-        
-        tk.Label(master, text="Number of Valves: ").grid(row=2, column=0)
-        self.engine_valves = tk.Entry(master)
-        self.engine_valves.grid(row=2, column=1)
-        
-        # create labels and entry widgets for transmission properties
-        tk.Label(master, text="Transmission Type: ").grid(row=3, column=0)
-        self.transmission_type = tk.Entry(master)
-        self.transmission_type.grid(row=3, column=1)
-        
-        # create buttons to add components
-        tk.Button(master, text="Add Engine", command=self.add_engine).grid(row=4, column=0)
-        tk.Button(master, text="Add Transmission", command=self.add_transmission).grid(row=4, column=1)
-        
-        # create label to display the built car
-        self.result_label = tk.Label(master, text="")
-        self.result_label.grid(row=5, column=0, columnspan=2)
-        
-    def add_engine(self):
-        # create an Engine object from user input
-        engine = Engine(int(self.engine_power.get()), int(self.engine_cylinders.get()), int(self.engine_valves.get()))
-        
-        # use the builder to add the engine to the car
-        self.builder.add_engine(engine)
-        
-        # update the result label
-        self.result_label.config(text="Engine Added: " + str(engine.power) + " HP, " + str(engine.cylinders) + " Cylinders, " + str(engine.valves) + " Valves")
-        
-    def add_transmission(self):
-        # create a Transmission object from user input
-        transmission = Transmission(self.transmission_type.get())
-        
-        # use the builder to add the transmission to the car
-        self.builder.add_transmission(transmission)
-        
-        # update the result label
-        self.result_label.config(text="Transmission Added: " + transmission.transmission_type)
-        
-root = tk.Tk()
-app = App(root)
-root.mainloop()
+class CarComponent:
+    def __init__(self, name, manufacturer, model, year):
+        self.name = name
+        self.manufacturer = manufacturer
+        self.model = model
+        self.year = year
 
-Цей код створює вікно з елементами введення та кнопками, але ще не містить функціоналу, пов'язаного з компонувальником. 
-Для того, щоб програма працювала з компонувальником, потрібно додати код, який оброблятиме введені користувачем дані та виконуватиме відповідні дії з об'єктами.
-Ось приклад, як можна додати функціонал до кнопки "Create Car" для створення об'єкту типу "Car" за допомогою компонувальника та виведення його в консоль:
-from tkinter import *
-from car_composer import *
+class Car:
+    def __init__(self):
+        self.components = []
 
-class Application(Frame):
-    def __init__(self, master=None):
+    def add_component(self, component):
+        self.components.append(component)
+
+    def remove_component(self, component):
+        self.components.remove(component)
+
+class Inventory:
+    def __init__(self):
+        self.components = []
+
+    def add_component(self, component):
+        self.components.append(component)
+
+    def remove_component(self, component):
+        self.components.remove(component)
+
+class ComponentEntryForm(tk.Frame):
+    def __init__(self, master, inventory):
         super().__init__(master)
-        self.master = master
-        self.pack()
-        self.create_widgets()
+        self.inventory = inventory
 
-    def create_widgets(self):
-        # Car Name Label
-        self.name_label = Label(self)
-        self.name_label["text"] = "Car Name:"
-        self.name_label.pack(side="top")
+        # Create labels and entry widgets for the component data
+        name_label = tk.Label(self, text="Name:")
+        self.name_entry = tk.Entry(self)
+        manufacturer_label = tk.Label(self, text="Manufacturer:")
+        self.manufacturer_entry = tk.Entry(self)
+        model_label = tk.Label(self, text="Model:")
+        self.model_entry = tk.Entry(self)
+        year_label = tk.Label(self, text="Year:")
+        self.year_entry = tk.Entry(self)
 
-        # Car Name Entry
-        self.name_entry = Entry(self)
-        self.name_entry.pack(side="top")
+        # Create a button to add the component to the inventory
+        add_button = tk.Button(self, text="Add Component", command=self.add_component)
 
-        # Car Body Label
-        self.body_label = Label(self)
-        self.body_label["text"] = "Body Type:"
-        self.body_label.pack(side="top")
+        # Pack the widgets using grid layout
+        name_label.grid(row=0, column=0)
+        self.name_entry.grid(row=0, column=1)
+        manufacturer_label.grid(row=1, column=0)
+        self.manufacturer_entry.grid(row=1, column=1)
+        model_label.grid(row=2, column=0)
+        self.model_entry.grid(row=2, column=1)
+        year_label.grid(row=3, column=0)
+        self.year_entry.grid(row=3, column=1)
+        add_button.grid(row=4, column=1)
 
-        # Car Body Radiobuttons
-        self.body_var = StringVar()
-        self.body_var.set("sedan")
-        self.sedan_radio = Radiobutton(self, text="Sedan", variable=self.body_var, value="sedan")
-        self.sedan_radio.pack(side="top")
-        self.suv_radio = Radiobutton(self, text="SUV", variable=self.body_var, value="suv")
-        self.suv_radio.pack(side="top")
+    def add_component(self):
+        # Create a CarComponent object from the entry data
+        component = CarComponent(self.name_entry.get(),
+                                 self.manufacturer_entry.get(),
+                                 self.model_entry.get(),
+                                 self.year_entry.get())
 
-        # Car Engine Label
-        self.engine_label = Label(self)
-        self.engine_label["text"] = "Engine Type:"
-        self.engine_label.pack(side="top")
+        # Add the component to the inventory
+        self.inventory.add_component(component)
 
-        # Car Engine Radiobuttons
-        self.engine_var = StringVar()
-        self.engine_var.set("electric")
-        self.electric_radio = Radiobutton(self, text="Electric", variable=self.engine_var, value="electric")
-        self.electric_radio.pack(side="top")
-        self.gas_radio = Radiobutton(self, text="Gas", variable=self.engine_var, value="gas")
-        self.gas_radio.pack(side="top")
+        # Clear the entry fields
+        self.name_entry.delete(0, tk.END)
+        self.manufacturer_entry.delete(0, tk.END)
+        self.model_entry.delete(0, tk.END)
+        self.year_entry.delete(0, tk.END)
 
-        # Create Car Button
-        self.create_button = Button(self)
-        self.create_button["text"] = "Create Car"
-        self.create_button["command"] = self.create_car
-        self.create_button.pack(side="bottom")
+class CarAssemblyForm(tk.Frame):
+    def __init__(self, master, inventory):
+        super().__init__(master)
+        self.inventory = inventory
 
-    def create_car(self):
-        name = self.name_entry.get()
-        body_type = self.body_var.get()
-        engine_type = self.engine_var.get()
-        car = CarComposer.compose_car(name, body_type, engine_type)
-        print(car)
+        # Create a listbox to display the available components
+        self.component_listbox = tk.Listbox(self, height=5)
+        self.component_listbox.pack(side=tk.LEFT, padx=5, pady=5)
 
+        # Create buttons to add and remove components from the car
+        add_button = tk.Button(self, text="Add Component", command=self.add_component)
+        remove_button = tk.Button(self, text="Remove Component", command=self.remove_component)
+def add_component(self):
+    # Get the selected component from the listbox
+    selection = self.component_listbox.curselection()
+    if selection:
+        component = self.component_listbox.get(selection[0])
 
-root = Tk()
-app = Application(master=root)
-app.mainloop()
-Цей код використовує метод create_car(), щоб отримати введені дані від користувача, передати їх в компонувальник та вивести об'єкти.
+        # Add the component to the car
+        car.add_component(component)
 
+def remove_component(self):
+    # Get the selected component from the car
+    selection = self.car_listbox.curselection()
+    if selection:
+        component = self.car_listbox.get(selection[0])
+
+        # Remove the component from the car
+        car.remove_component(component)
+class App: def init(self, master): 
+self.master = master self.inventory = Inventory() self.car = Car()
+    # Create the component entry form and car assembly form
+    component_entry_form = ComponentEntryForm(self.master, self.inventory)
+    car_assembly_form = CarAssemblyForm(self.master, self.inventory, self.car)
+
+    # Pack the forms using grid layout
+    component_entry_form.grid(row=0, column=0, padx=10, pady=10)
+    car_assembly_form.grid(row=0, column=1, padx=10, pady=10)
+
+    # Populate the component listbox with the inventory components
+    for component in self.inventory.components:
+        self.component_listbox.insert(tk.END, component)
+
+    # Populate the car listbox with the car components
+    for component in self.car.components:
+        self.car_listbox.insert(tk.END, component)
+if name == 'main': 
+root = tk.Tk() 
+app = App(root) root.mainloop()
+
+Ця програма створює візуальний інтерфейс з двома формами: форма введення компонентів автомобіля та форма складання автомобіля зі списку наявних компонентів.
+Форма введення компонентів автомобіля містить поля для введення даних про компонент, такі як назва, виробник, модель та рік випуску. 
+Після введення даних користувач може додати компонент до інвентарю за допомогою кнопки "Add Component".
+
+Форма складання автомобіля містить список наявних компонентів з інвентарю та список компонентів автомобіля.
+Користувач може додати компонент зі списку наявних компонентів до списку компонентів автомобіля
+за допомогою кнопки "Add Component" або видалити компонент зі списку компонентів автомобіля за допомогою кнопки "Remove Component". 
 
